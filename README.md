@@ -8,7 +8,7 @@ Some fun facts about me:
 2. I have the same birthday as my mom.
 3. I have 2 nieces and 1 nephew (and another on the way). My brother and sister are 15 and 17 years older than me, respectively.
 
-![picture of me and Kailey E](assets/kailey.jpeg)
+
 
 # Table of Contents
 [Link to Assignment 1](assignments/assignment1.md)
