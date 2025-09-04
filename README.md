@@ -1,7 +1,7 @@
 # 6.1040 Portfolio
 
 # About Me
-*My name is Christina Beggs, and I'm a junior in courses 6-3 and 15-2. I'm originally from south Jersey. *
+*My name is **Christina Beggs**, and I'm a junior in courses 6-3 and 15-2. I'm originally from south Jersey **(go Phils)**.*
 
 Some fun facts about me:
 1. I can sing the alphabet backwards.
