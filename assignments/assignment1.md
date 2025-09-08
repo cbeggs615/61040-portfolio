@@ -16,17 +16,17 @@
 
 ## Problems
 ### Tracking sports
-1. ***Multiple apps to follow:** NFL, MLB, NBA, NHL, ESPN, Bleacher Report… following different teams means going through multiple apps and websites just to see basic stats and schedules*
-2. ***Information overload:** Existing apps flood you with articles, ads, and rumors, making it hard to quickly find just scores, schedules, and key stats*
-3. ***Limited customization:** Most apps restrict you to one favorite league, team, or city, making it difficult for cross-league or cross-city fans (ex. following both the Eagles and Ravens) to track everything in one place*
+1. ***Multiple apps to follow:** NFL, MLB, NBA, NHL, ESPN, Bleacher Report… following different teams means going through multiple apps and websites just to see basic stats and schedules.*
+2. ***Information overload:** Existing apps flood you with articles, ads, and rumors, making it hard to quickly find just scores, schedules, and key stats.*
+3. ***Limited customization:** Most apps restrict you to one favorite league, team, or city, making it difficult for cross-league or cross-city fans (ex. following both the Eagles and Ravens) to track everything in one place.*
 
 ### Finding cafés
 1. ***Unreliable information**: Google Maps/Beli/Yelp give ratings but rarely give reliable information about rules about laptops, wifi, outlets, etc.*
-2. ***Hard to find on the go**: When traveling or in a new citym it's hard to quickly find good working spots nearby*
-3. ***Inconsistent environments/needs**: Sometimes I want quiet, sometimes a lively atmosphere; sometimes a long stay, other times just a short stop. Current apps/tools I use don’t help filter cafés by these changing needs*
+2. ***Hard to find on the go**: When traveling or in a new city, it's hard to quickly find good working spots nearby.*
+3. ***Inconsistent environments/needs**: Sometimes I want quiet, sometimes a lively atmosphere; sometimes a long stay, other times just a short stop. Current apps/tools I use don’t help filter cafés by these changing needs.*
 
 ### Building/tracking new skills
-1. ***Fragmented resources**: Each skill (chess, Dutch, coding, guitar) requires a different app or site, making it hard to keep track of goals in one place*
+1. ***Fragmented resources**: Each skill (chess, Dutch, coding, guitar) requires a different app or site, making it hard to keep track of goals in one place.*
 2. ***Lack of tailored reminders**: Apps like Duolingo send alerts, but for other skills (like guitar or chess) I often need simple nudges to practice that day to stay engaged with my goals.*
 3. ***No progress overview**: Because tracking varies by app or task, it’s difficult to see overall progress, making it easier to lose momentum and forget how far I’ve come.*
 
@@ -114,8 +114,8 @@
 
 ### **Finding cafés: Hard to find on the go**
 1. **Amenity-Based Filtering**: A search feature where users can filter cafés by criteria like Wi-Fi reliability, number of outlets, noise level, or time limits. This helps travelers and remote workers quickly find a spot that fits their immediate needs without relying on trial and error. Data could come from a combination of verified café input and scraping recent online reviews for consistency.
-2. **Verified Café Profiles**: Cafés can create or claim profiles that list work-friendly amenities such as Wi-Fi quality, outlet availability, and time-limit policies. This reduces reliance on crowdsourced reviews and gives café owners control over how they present their space, while providing remote workers with more reliable, standardized information. Scraping from official café websites could help keep information up to date even if owners aren’t active on the platform.
-3. **Fair-Use Transparency Toolss**: Profiles highlight policies like time limits, purchase minimums, or designated laptop zones. This helps remote workers and students avoid surprises and lets café owners set clear expectations, easing tension between long-stay laptop users and businesses. Combining café input with aggregated online reviews ensures transparency reflects both official policies and actual customer experiences.
+2. **Verified Café Profiles**: Cafés can create or claim profiles to list work-friendly amenities like Wi-Fi quality, outlet availability, or time-limit policies. This gives café owners control over how they present their space and helps remote workers and students avoid surprises. To stay accurate, profiles could also integrate data scraped from official websites and aggregated online reviews, balancing official policies with real user experiences.
+3. **Automated Data Aggregations**: The system would automatically pull and standardize data from multiple sources (official café websites, Google Maps attributes, TripAdvisor, Yelp, etc.). This avoids heavy reliance on crowdsourced check-ins or manual café owner updates, and ensures information is more consistent and widespread across all cities.
 
 ### **Sports: Information Overload**
 1. **Clean, Ad-Lite Experiences**: A focus on lightweight design with limited ads or intrusive media. This improves usability for fans who often feel overwhelmed, and reduces the "information scatter" that frustrates them
