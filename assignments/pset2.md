@@ -95,7 +95,7 @@
      &nbsp;&nbsp;&nbsp;
      ItemOwnership.authorize (user, item: shortUrl) <br>
      &nbsp;&nbsp;&nbsp;
-     return count to user
+      Request.response(count)
 3. **Feature Requests**
     - Allowing users to choose their own short URLs
         - How: add an additional sync for register so that when Requests.shortenURL has a shortURLSuffix parameter, URLShortening.register is called with that suffix directly instead of calling NonceGeneration in between.
