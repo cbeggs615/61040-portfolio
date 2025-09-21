@@ -73,12 +73,15 @@
     authorize(user:User, item: Item): <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     **requires** user is in item's set of users <br>
+    &nbsp;&nbsp;&nbsp;
+    unassign(user:User, item: Item): <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    **requires** user is in item's set of users <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    **effects** user is removed from item's set of users <br>
 2.   **sync**  registerAnalytics<br>
-     **when**<br>
-     &nbsp;&nbsp;&nbsp;
-     Request.shortenUrl (targetUrl, shortUrlBase)<br>
-     &nbsp;&nbsp;&nbsp;
-     UrlShortening.register (shortUrlSuffix, shortUrlBase, targetUrl): (shortUrl) <br>
+     **when**
+     UrlShortening.register (): (shortUrl) <br>
      **where** user is the user creating the shortened URL<br>
      **then** <br>
      &nbsp;&nbsp;&nbsp;
@@ -104,7 +107,7 @@
     - Using the “word as nonce” strategy to generate more memorable short URLs
         - How: Add a dictionary of words for the NonceGeneration concept. Add an action that generates unused strings from this dictionary, alongside the existing action for arbitrary strings. Users (or the system) could then select which action to invoke.
     - Including the target URL in analytics
-        - How: In the registerAnalytics sync, do anylyticsTracking.addRecord(item: targetUrl) instead. Also, in the recordLookup sync, do analyticsTracking.recordAccess(item:targetUrl) instead of shortUrl, so counts are aggreagated for any access to targetUrl from multiple short URLs.
+        - How: In the registerAnalytics sync, do anylyticsTracking.addRecord(item: targetUrl) instead. Also, in the recordLookup sync, do analyticsTracking.recordAccess(item:targetUrl) instead of shortUrl, so counts are aggreagated for any access to targetUrl from multiple short URLs. Would list targetUrl as one of the arguments for Urlshortening.register.
     - Generate short URLs that are not easily guessed
         - How: modify the NonceGeneration concept so that there is a secureGenerate action that may have a stricter postcondition relating to how to make a harder-to-guess nonce.
     - Supporting reporting of analytics to creators of short URLs who have not registered as user
