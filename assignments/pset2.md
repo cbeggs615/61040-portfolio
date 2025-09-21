@@ -49,12 +49,6 @@
     **requires** there is an existing Record for this item <br>
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     **effects** deletes the Record for this item<br>
-    &nbsp;&nbsp;&nbsp;
-    getCount(record: Record): (counter: Number)<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    **requires** there is an existing Record for this item <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    **effects** returns the counter for this record<br>
 
     **concept** ItemOwnership [User, Item] <br>
      **purpose** restrict access of an item to specific users <br>
@@ -81,33 +75,34 @@
     **effects** user is removed from item's set of users <br>
 2.   **sync**  registerAnalytics<br>
      **when**
-     UrlShortening.register (): (shortUrl) <br>
+     UrlShortening.register(): (shortUrl) <br>
      **where** user is the user creating the shortened URL<br>
      **then** <br>
      &nbsp;&nbsp;&nbsp;
      analyticsTracking.addRecord(item: shortUrl): (record)<br>
-     &nbsp;&nbsp;&nbsp; ItemOwnership.assign(user, item: record)<br>
+     &nbsp;&nbsp;&nbsp; ItemOwnership.assign(user, item: shortUrl)<br>
 
-      **sync**  recordLookup<br>
+     **sync**  recordLookup<br>
      **when** UrlShortening.lookup (shortUrl): (targetUrl) <br>
      **then** analyticsTracking.recordAccess(item: shortUrl)
 
       **sync**  examineAnalytics<br>
      **when**<br>
      &nbsp;&nbsp;&nbsp;
-     Request.getAnalytics (user, record)<br>
+     Request.getAnalytics (user, shortUrl)<br>
+     **where** user is requesting the analytics and count is the counter for the shortUrl in analyticsTracking <br>
+     **then**<br>
      &nbsp;&nbsp;&nbsp;
-     ItemOwnership.authorize (user, item: record) <br>
-     **then** <br>
+     ItemOwnership.authorize (user, item: shortUrl) <br>
      &nbsp;&nbsp;&nbsp;
-     analyticsTracking.getCount(record)
+     return count to user
 3. **Feature Requests**
     - Allowing users to choose their own short URLs
         - How: add an additional sync for register so that when Requests.shortenURL has a shortURLSuffix parameter, URLShortening.register is called with that suffix directly instead of calling NonceGeneration in between.
     - Using the “word as nonce” strategy to generate more memorable short URLs
         - How: Add a dictionary of words for the NonceGeneration concept. Add an action that generates unused strings from this dictionary, alongside the existing action for arbitrary strings. Users (or the system) could then select which action to invoke.
     - Including the target URL in analytics
-        - How: In the registerAnalytics sync, do anylyticsTracking.addRecord(item: targetUrl) instead. Also, in the recordLookup sync, do analyticsTracking.recordAccess(item:targetUrl) instead of shortUrl, so counts are aggreagated for any access to targetUrl from multiple short URLs. Would list targetUrl as one of the arguments for Urlshortening.register.
+        - How: In the registerAnalytics sync, do anylyticsTracking.addRecord(item: targetUrl) instead. Also, in the recordLookup sync, do analyticsTracking.recordAccess(item:targetUrl) instead of shortUrl, so counts are aggreagated for any access to targetUrl from multiple short URLs. Would list targetUrl as one of the arguments for Urlshortening.register. For examineAnalytics you would return the count for the targetUrl in analyticsTracking (could find using lookup action).
     - Generate short URLs that are not easily guessed
         - How: modify the NonceGeneration concept so that there is a secureGenerate action that may have a stricter postcondition relating to how to make a harder-to-guess nonce.
     - Supporting reporting of analytics to creators of short URLs who have not registered as user
