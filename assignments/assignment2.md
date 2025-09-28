@@ -289,17 +289,17 @@ This separation of concerns keeps the design modular while supporting the three 
 ## UI sketches
 
 **MyTeams Dashboard** (home page) <br>
-![MyTeamsDashboard](assets/MyTeamsDashboard.jpeg)
+![MyTeamsDashboard](../assets/MyTeamsDashboard.jpeg)
 
 
 **StatsShot** (for a followed team) <br>
-![StatsShot](assets/StatsShot.jpeg)
+![StatsShot](../assets/StatsShot.jpeg)
 
 **Edit Stats** <br>
-![Edit Stats](assets/EditStats.jpeg)
+![Edit Stats](../assets/EditStats.jpeg)
 
 **MyTeams Calendar** <br>
-![MyTeams Calendar](assets/MyTeamsCalendar.jpeg)
+![MyTeams Calendar](../assets/MyTeamsCalendar.jpeg)
 
 ## User Journey
 Alex is a sports fan who follows the Ravens in the NFL, the Phillies in the MLB, and the Sixers in the NBA. With games across different leagues and times, he often bounces between apps like ESPN, NFL.com, and MLB.com just to figure out when his teams are playing and how they’re doing. He’s frustrated that each app buries him in ads and articles when all he really wants are scores, schedules, and key stats.
