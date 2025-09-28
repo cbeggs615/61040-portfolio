@@ -7,7 +7,7 @@ I follow teams across multiple leagues and cities, including the Ravens and Eagl
 
 ### The Problem: Multi-League fans struggle to keep track of their teams
 **Description** <br>
-Fans who follow teams across different leagues (ex. NFL + MLB) face the challenge of fragmented schedules and stats. With each league operating independently and most apps overwhelming users with excess content, it is difficult for multi-league fans to get a clear, unified view of the information that matters most to them
+Fans who follow teams across different leagues (ex. NFL + MLB) face the challenge of fragmented schedules and stats. This makes it hard for multi-league fans to get a clear, unified picture of their teams without juggling apps and sifting through irrelevant content.
 
 ### Stakeholders:
 **Multi-League Fans** <br>
@@ -18,9 +18,6 @@ Organizations (NFL, NBA, MLB, individual franchises) that generate the schedules
 
 **Sports Media Companies** <br>
 Platforms like ESPN, Bleacher Report, and The Athletic aggregate scores and stats across leagues, but their content is often bundled with articles, ads, and notifications. In the context of the problem, they are both a source of essential information for fans and a contributor to information overload that makes it harder for users to quickly track what matters most.
-
-**Fantasy and betting platforms**<br>
-Companies like DraftKings or FanDuel rely on timely, cross-sport information for their users. Fragmentation of data makes it harder for these users to track stats and results efficiently, which can impact engagement.
 
 **Casual/New Fans**<br>
 Friends or newcomers who are less invested but want to follow teams when their group does. Scattered information makes it harder for them to join conversations and learn how to follow sports, while easier access could help them get engaged more quickly.
@@ -43,19 +40,18 @@ StatsSnap gives multi-league fans a clean, personalized hub to instantly track t
 **MyTeams Dashboard**<br>
 Choose your favorite teams across different leagues and see all their games, scores, and standings on a single screen. <br>
 - Why it helps: Ends the hassle of dealing with multiple apps or websites to follow your favorite teams<br>
-- Impact on stakeholders: Multi-League fans and casual fans save time and can stay in the loop more easily.
-Media companies may not like that there's an easier source to view stats without ads and that certain information
-and articles would be filtered out.<br>
+- Impact on stakeholders: Fans save time and stay in the loop more easily. Media companies shift to providing deeper stories through linked articles.
+<br>
 
 **StatsShot**<br>
 Bite-sized cards show just the essentials such as scores, record, top story, and standout player updates for each team. Links to extra stats also provided if user desires.<br>
-- Why it helps: Strips away extraneous detailed statisticss so fans can quickly see key information<br>
-- Impact on stakeholders: Keeps fans engaged without overwhelming them. Helps fantasy and betting platforms' users scan key numbers at a glance to keep up their engagement. Media companies and leagues still benefit through linked stories and data visibility.
+- Why it helps: Strips away overly detailed stats so fans can quickly see key information<br>
+- Impact on stakeholders: Keeps fans engaged without overwhelming them. Media companies and leagues still benefit through linked stories and data visibility.
 
 **MyTeams Calendar**<br>
-Calendar of your favorite teams' upcoming games and where to stream them<br>
-- Why it helps: Fragmentation of sports broadcasting has centraliized hub to find where relevant games are streaming<br>
-- Impact on stakeholders: Fans can quickly get access about how to watch their favorite teams and can plan when/where to watch their teams. Media companies benefit from viewers finding and watching the games easily. Teams/Leagues benefit from viewership of teams.
+Calendar of your favorite teams' upcoming games and where to stream them with links<br>
+- Why it helps: Fragmentation of sports broadcasting now has centralized hub to find where relevant games are streaming<br>
+- Impact on stakeholders: Fans can quickly see how and where to watch. Media companies benefit from viewers finding and watching the games easily. Teams/Leagues benefit from viewership of teams.
 
 ## Concept Design
 
@@ -165,7 +161,7 @@ removeKeyStat (sportName: String, stat: Stat): <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 **requires** Sport with this name exists and stat is in its KeyStats<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-**effects** adds stat to sportName's KeyStats<br>
+**effects** removes stat from sportName's KeyStats<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 fetchTeamStats (teamname: String, sport: Sport): (keyStatsData: Map<Stat, Data>)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -276,15 +272,29 @@ editEventURL (name: String, date: DateTime, newURL: URL):  <br>
      &nbsp;&nbsp;&nbsp;
      Request.response(keyStatsData)<br>
 
+**sync**  editKeyStatsAdd<br>
+**when**
+     Request.editKeyStats(user, sportName, statToAdd: Stat): <br>
+     **then** <br>
+     &nbsp;&nbsp;&nbsp;
+     SportsStats.addKeyStat(sportName, statToAdd)
 
->**Notes**: The concepts together form the foundation for StatsSnap’s three user-facing features. PasswordAuth controls access to the app and ensures all information is tied to a specific user identity. ItemTracking[User, Item] manages which items (in this case, team stats) each user follows, enabling personalization of the dashboard, stats cards, and calendar. SportsStats[Source, Stat, Data] defines sports, their key stats, and data sources; teams inherit their sport’s definitions and maintain up-to-date values. This allows StatsShot to show only the essential information relevant for each sport. StreamedEvents[Item, URL] links items to scheduled events with access links. In StatsSnap, events are games tied to teams, allowing MyTeams Calendar to present a clean, central view of upcoming games and where they can be streamed. The teams displayed in the homepage would also include some summary snapshot of even more filtered stats from StatsShot for that team.
+**sync**  editKeyStatsRemove<br>
+**when**
+     Request.editKeyStats(user, sportName, statToRemove: Stat): <br>
+     **then** <br>
+     &nbsp;&nbsp;&nbsp;
+     SportsStats.removeKeyStat(sportName, statToRemove)
 
-Type parameters are instantiated as follows:
- - In ItemTracking[User, Item], User is bound to PasswordAuth users, and Item is instantiated as TeamStats objects from SportsStats.
-- In SportsStats[Source, Stat, Data], Source refers to an external API or feed (MLB.com, ESPN, etc.), Stat is a defined type (goals, ERA, passing yards, etc.), and Data is the actual recorded value for a stat.
-- In StreamedEvents[Item, URL], Item is again TeamStats, tying games to the teams users follow, and URL is the streaming access link.
 
-This separation of concerns keeps the design modular while supporting the three main features: MyTeams Dashboard (overview), StatsShot (key stats snapshots), and MyTeams Calendar (upcoming games + streams).
+
+>**Notes**: The concepts together form the foundation for StatsSnap’s three user-facing features. PasswordAuth controls access to the app and ensures all information is tied to a specific user identity. ItemTracking[User, Item] manages which items (in this case, team stats) each user follows, enabling personalization of the dashboard, stats cards, and calendar. SportsStats[Source, Stat, Data] defines sports, their key stats, and data sources; teams inherit their sport’s definitions and maintain up-to-date values. This allows StatsShot to show only the essential information relevant for each sport. StreamedEvents[Item, URL] links items to scheduled events with access links. In StatsSnap, events are games tied to teams, allowing MyTeams Calendar to present a clean, central view of upcoming games and where they can be streamed. The homepage shows each team with a summary snapshot powered by StatsShot, giving users a quick view of filtered key stats.
+
+>Type parameters are instantiated as follows:
+ >- In ItemTracking[User, Item], User is bound to PasswordAuth users, and Item is instantiated as TeamStats objects from SportsStats.
+>- In SportsStats[Source, Stat, Data], Source refers to an external API or feed (MLB.com, ESPN, etc.), Stat is a defined type (goals, ERA, passing yards, etc.), and Data is the actual recorded value for a stat.
+>- In StreamedEvents[Item, URL], Item is again TeamStats, tying games to the teams users follow, and URL is the streaming access link.
+>This separation of concerns keeps the design modular while supporting the three main features: MyTeams Dashboard (overview), StatsShot (key stats snapshots), and MyTeams Calendar (upcoming games + streams).
 
 ## UI sketches
 
@@ -302,12 +312,12 @@ This separation of concerns keeps the design modular while supporting the three 
 ![MyTeams Calendar](../assets/MyTeamsCalendar.jpeg)
 
 ## User Journey
-Alex is a sports fan who follows the Ravens in the NFL, the Phillies in the MLB, and the Sixers in the NBA. With games across different leagues and times, he often bounces between apps like ESPN, NFL.com, and MLB.com just to figure out when his teams are playing and how they’re doing. He’s frustrated that each app buries him in ads and articles when all he really wants are scores, schedules, and key stats.
+Christian is a sports fan who follows the Ravens in the NFL, the Phillies in the MLB, and the Sixers in the NBA. With games across different leagues and times, he used to bounce between apps like ESPN, NFL.com, and MLB.com just to figure out when his teams are playing and how they’re doing. He’s frustrated that each app buries him in ads and articles when all he really wants are scores, schedules, and key stats.
 
-Then, Alex opens StatsSnap. After logging in, he lands on the MyTeams Dashboard (see sketch: MyTeamsDashboard.jpeg). His chosen teams — the Ravens, Phillies, and Sixers — appear in one clean view, showing their records, current standing, and a list of upcoming games. While browsing, Alex decides he also wants to track the Eagles. He taps “Add Team,” searches for the Eagles, and instantly sees them added to his dashboard.
+Then, Christian opens StatsSnap. After logging in, he lands on the MyTeams Dashboard (see sketch: MyTeamsDashboard.jpeg). His chosen teams — the Ravens, Phillies, and Sixers — appear in one clean view, showing their records, current standing, and a list of upcoming games. While browsing, Christian decides he also wants to track the Eagles. He taps “Add Team,” searches for the Eagles, and instantly sees them added to his dashboard.
 
-Curious about the Ravens, Alex taps their tile and opens the StatsShot view (see sketch: StatsShot.jpeg). A bite-sized card shows the Ravens’ latest score, Lamar Jackson’s passing stats, a “Top Story” link, and upcoming games calendar. Realizing he also wants to see rushing yards for NFL teams, he taps Edit Stats (see sketch: EditStats.jpeg), adds “Rushing Yards,” and applies the change. Back on StatsShot, the card updates to include rushing yards alongside the essentials.
+Curious about the Ravens, Christian taps their tile and opens the StatsShot view (see sketch: StatsShot.jpeg). A bite-sized card shows the Ravens’ latest score, Lamar Jackson’s passing stats, a “Top Story” link, and upcoming games calendar. Realizing he also wants to see rushing yards for NFL teams, he taps Edit Stats (see sketch: EditStats.jpeg), adds “Rushing Yards,” and applies the change. Back on StatsShot, the card updates to include rushing yards alongside the essentials.
 
-Later, Alex taps the events list on his dashboard and is taken to the MyTeams Calendar (see sketch: MyTeamsCalendar.jpeg). Here he finds all upcoming games for the Ravens, Phillies, Sixers, and newly added Eagles in one schedule, complete with direct links to streaming platforms.
+Later, he taps the events list on his dashboard and is taken to the MyTeams Calendar (see sketch: MyTeamsCalendar.jpeg). Here he finds all upcoming games for the Ravens, Phillies, Sixers, and newly added Eagles in one schedule, complete with direct links to streaming platforms.
 
-By the end of the day, Alex feels less overwhelmed and more connected. StatsSnap has given him a streamlined hub that cuts through the noise, lets him add and customize the stats he cares about, and makes following his teams easy without juggling multiple apps.
+By the end of the day, Christian feels less overwhelmed and more connected. StatsSnap has given him a streamlined hub that cuts through the noise, lets him add and customize the stats he cares about, and makes following his teams easy without juggling multiple apps.
